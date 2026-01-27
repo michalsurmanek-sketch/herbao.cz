@@ -57,10 +57,10 @@
       </a>
 
       <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#byliny">Byliny</a>
-        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#zdravi">Zdraví</a>
-        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#pruvodce">Průvodce</a>
-        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#doporuceni">Doporučení</a>
+        <a class="navLink text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" data-nav="bylina" href="#sekce">Byliny</a>
+        <a class="navLink text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" data-nav="zdraví" href="#sekce">Zdraví</a>
+        <a class="navLink text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" data-nav="průvodce" href="#sekce">Průvodce</a>
+        <a class="navLink text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" data-nav="doporučení" href="#sekce">Doporučení</a>
       </nav>
 
       <div class="flex items-center gap-2">
@@ -128,7 +128,7 @@
             </div>
 
             <div class="mt-4 grid gap-3">
-              <button data-open="byliny" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+              <button data-nav="bylina" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C12 16 15 12 21 10V2C13 2 6.5 5.5 4 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22C8 20 6 16 6 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -141,7 +141,7 @@
                 </div>
               </button>
 
-              <button data-open="zdravi" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+              <button data-nav="zdraví" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21S4 16 4 9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 7-8 12-8 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -154,7 +154,7 @@
                 </div>
               </button>
 
-              <button data-open="pruvodce" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+              <button data-nav="průvodce" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -167,7 +167,7 @@
                 </div>
               </button>
 
-              <button data-open="doporuceni" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+              <button data-nav="doporučení" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
                 <div class="flex items-start gap-3">
                   <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 7h12l-1 14H7L6 7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -328,6 +328,7 @@
     });
 
     // ===== Data =====
+    // ===== Data (MVP – připravené na reálné odkazy) =====
     const items = [
       {
         id: 'kurkuma',
@@ -339,7 +340,7 @@
         good: ['Dlouhodobě při ztuhlosti kloubů', 'Jako doplněk ke stravě (ne náhrada léčby)', 'Když chceš jednoduchý základní návyk'],
         warn: ['Pozor při lécích na ředění krve', 'U citlivého žaludku začít nízko', 'Neřeší akutní stav přes noc'],
         product: 'Extrakt kurkuminu + piperin',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'ostropestrec',
@@ -351,7 +352,7 @@
         good: ['Když chceš podpořit játra (např. po dietních chybách)', 'Při pocitu těžkosti po jídle', 'Jako jednoduchá „reset“ rutina'],
         warn: ['Pozor při lécích – konzultace', 'U žlučníku opatrně', 'Nečekej zázrak bez režimu'],
         product: 'Silymarin (ostropestřec) kapsle',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'kozlík',
@@ -363,7 +364,7 @@
         good: ['Při problémovém usínání', 'Když tě „točí“ stres', 'Jako večerní čaj/tinktura'],
         warn: ['Neřídit, když cítíš útlum', 'Ne kombinovat bez hlavy s alkoholem', 'U dlouhodobých potíží řešit příčinu'],
         product: 'Kozlík čaj nebo tinktura',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'medunka',
@@ -375,7 +376,7 @@
         good: ['Denní stres a napětí', 'Lehká večerní rutina', 'Když chceš něco „měkkého“'],
         warn: ['U nízkého tlaku sledovat reakci', 'Nečekej okamžitý efekt jako prášek', 'Když je úzkost silná, řešit odborně'],
         product: 'Meduňka čaj / extrakt',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'ginkgo',
@@ -387,7 +388,7 @@
         good: ['Když chceš podpořit soustředění', 'Při náročném období', 'Když chceš „hlavu čistější“'],
         warn: ['Pozor při lécích na ředění krve', 'Vyžaduje čas (týdny)', 'Nepřehánět dávkování'],
         product: 'Ginkgo extrakt (standardizovaný)',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'zdravi-zada',
@@ -399,7 +400,7 @@
         good: ['Denně 10–20 min chůze', 'Lehký strečink / rehabilitační cviky', 'Hydratace + bílkoviny'],
         warn: ['Akutní bolest = lékař', 'Brnění/noha = nepodceňovat', 'Nezvedat těžké věci bez techniky'],
         product: 'Kurkumin / kolagen (dle potřeby)',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'zdravi-stres',
@@ -411,7 +412,7 @@
         good: ['Omezit kafe po 14:00', 'Krátká procházka denně', 'Večer bez obrazovek 30 min'],
         warn: ['Dlouhodobá úzkost = odborník', 'Alkohol zhoršuje spánek', 'Nedostatek spánku je násobič'],
         product: 'Meduňka / kozlík (večer)',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'pruvodce-3min',
@@ -423,7 +424,7 @@
         good: ['Rychle se zorientuješ', 'Naučíš se základní pravidla', 'Vyhneš se marketingovým slibům'],
         warn: ['Nečekej lékařskou diagnózu', 'U léků vždy konzultace', 'Zázraky neprodáváme'],
         product: 'Ověřené produkty (affiliate)',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
       {
         id: 'doporuceni-mvp',
@@ -435,7 +436,7 @@
         good: ['Jednodušší výběr', 'Méně zbytečných nákupů', 'Průhledné doporučení'],
         warn: ['Affiliate odkaz = transparentně uvedeme', 'Není to náhrada léčby', 'Kvalita se liší podle výrobce'],
         product: 'Pilulka / Dr.Max / Alza (zatím demo)',
-        link: '#'
+        link: 'https://www.pilulka.cz'
       },
     ];
 
@@ -508,7 +509,10 @@
       renderCards(filtered);
     }
 
-    document.getElementById('btnSearch').addEventListener('click', apply);
+    document.getElementById('btnSearch').addEventListener('click', () => {
+      apply();
+      document.getElementById('sekce').scrollIntoView({behavior:'smooth', block:'start'});
+    });
     document.getElementById('q').addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); apply(); } });
 
     document.querySelectorAll('.chip').forEach(btn => {
@@ -566,12 +570,50 @@
     });
 
     // Right panel buttons
-    document.querySelectorAll('.cardBtn').forEach(btn => {
-      btn.addEventListener('click', () => openModal(btn.getAttribute('data-open')));
-    });
-    document.getElementById('btnOpenDopor').addEventListener('click', () => openModal('doporuceni-mvp'));
+    function setFilterUI(tag){
+      // zvýrazní správný filter button
+      document.querySelectorAll('.filter').forEach(b => b.classList.remove('bg-white','dark:bg-zinc-900'));
+      const btn = document.querySelector(`.filter[data-filter="${tag}"]`) || document.querySelector('.filter[data-filter="all"]');
+      if(btn) btn.classList.add('bg-white','dark:bg-zinc-900');
+    }
 
-    // Search from right panel via top input
+    function goTo(tag){
+      // tag může být: bylina | zdraví | průvodce | doporučení
+      // mapujeme na filter: pro typy použijeme full list a jen „přepneme“ zobrazení
+      // (zobrazíme jen karty daného typu)
+      activeFilter = 'all';
+      document.getElementById('q').value = '';
+
+      const filtered = items.filter(it => it.type === tag);
+      renderCards(filtered);
+      setFilterUI('all');
+      document.getElementById('sekce').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // Nav (horní menu)
+    document.querySelectorAll('.navLink').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        goTo(a.getAttribute('data-nav'));
+      });
+    });
+
+    // Pravý panel (rychlé menu)
+    document.querySelectorAll('.cardBtn').forEach(btn => {
+      btn.addEventListener('click', () => goTo(btn.getAttribute('data-nav')));
+    });
+
+    // CTA
+    document.getElementById('btnOpenDopor').addEventListener('click', () => goTo('doporučení'));
+
+    // klik na „Vše“ ve filtrech resetuje na plný seznam
+    const allBtn = document.querySelector('.filter[data-filter="all"]');
+    if(allBtn){
+      allBtn.addEventListener('click', () => {
+        document.getElementById('q').value = '';
+        renderCards(items);
+      });
+    }
     document.querySelectorAll('[data-open="byliny"],[data-open="zdravi"],[data-open="pruvodce"],[data-open="doporuceni"]').forEach(()=>{});
 
     // Footer year
