@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="cs" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Herbao.cz – přírodní rovnováha</title>
+  <meta name="description" content="Herbao – moderní průvodce bylinami a přírodním zdravím. Bez ezoteriky. Bez zázraků. Normálně." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config (jen základ)
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "Noto Sans", "sans-serif"],
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(0,0,0,.08)',
+            softDark: '0 10px 30px rgba(0,0,0,.35)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* jemné pozadí + zrno */
+    .grain:before{content:"";position:absolute;inset:0;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" opacity=".10"/></svg>');mix-blend-mode:overlay;pointer-events:none;opacity:.45}
+    .glow{background:radial-gradient(60% 60% at 30% 20%, rgba(34,197,94,.18) 0%, rgba(34,197,94,0) 55%),radial-gradient(55% 55% at 80% 10%, rgba(16,185,129,.16) 0%, rgba(16,185,129,0) 50%),radial-gradient(60% 60% at 60% 80%, rgba(34,197,94,.10) 0%, rgba(34,197,94,0) 55%)}
+    .glow-dark{background:radial-gradient(60% 60% at 30% 20%, rgba(34,197,94,.20) 0%, rgba(34,197,94,0) 60%),radial-gradient(55% 55% at 80% 10%, rgba(16,185,129,.18) 0%, rgba(16,185,129,0) 55%),radial-gradient(60% 60% at 60% 80%, rgba(34,197,94,.10) 0%, rgba(34,197,94,0) 60%)}
+    .focus-ring:focus{outline:none;box-shadow:0 0 0 4px rgba(34,197,94,.25)}
+    .fade-in{animation:fade .55s ease-out both}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .modal-enter{animation:pop .18s ease-out both}
+    @keyframes pop{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+  </style>
+</head>
+
+<body class="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50 font-sans">
+  <!-- Background -->
+  <div class="fixed inset-0 -z-10 grain">
+    <div class="absolute inset-0 glow dark:glow-dark"></div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40 border-b border-zinc-200/60 dark:border-zinc-800/70 bg-zinc-50/75 dark:bg-zinc-950/70 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-soft dark:shadow-softDark">
+          <!-- leaf icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 3C12.5 3 6 6.5 3.5 12.5C2.5 14.9 3.4 17.8 5.7 19.1C7.9 20.4 10.7 19.8 12.2 17.7C14.2 14.9 16.7 12.6 20.5 11V3Z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18C12 13 14.5 9.5 20.5 7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>
+        <div class="leading-tight">
+          <div class="text-sm font-extrabold tracking-tight">Herbao</div>
+          <div class="text-[11px] text-zinc-600 dark:text-zinc-400">přírodní rovnováha</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#byliny">Byliny</a>
+        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#zdravi">Zdraví</a>
+        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#pruvodce">Průvodce</a>
+        <a class="text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white" href="#doporuceni">Doporučení</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button id="themeBtn" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/60 px-3 py-2 text-sm shadow-soft dark:shadow-softDark hover:bg-white dark:hover:bg-zinc-900" aria-label="Přepnout režim">
+          <span class="inline-flex" id="themeIcon"></span>
+          <span class="hidden sm:inline" id="themeLabel">Tmavý</span>
+        </button>
+        <a href="#start" class="hidden sm:inline-flex focus-ring items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-soft hover:bg-emerald-700">Začít</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="start" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section class="pt-14 sm:pt-16 pb-10 sm:pb-12 fade-in">
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 rounded-full border border-emerald-200/70 dark:border-emerald-900/40 bg-emerald-50/70 dark:bg-emerald-950/30 px-3 py-1 text-xs text-emerald-800 dark:text-emerald-200">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Bez ezoteriky • Bez zázraků • Normálně
+          </div>
+          <h1 class="mt-5 text-4xl sm:text-5xl font-black tracking-tight">
+            Přírodní rovnováha
+            <span class="block text-zinc-700 dark:text-zinc-300">pro tělo i hlavu.</span>
+          </h1>
+          <p class="mt-5 text-base sm:text-lg text-zinc-700 dark:text-zinc-300 max-w-2xl">
+            Herbao je moderní průvodce bylinami a jednoduchými návyky. Rychle najdeš, co dává smysl – a kdy radši ne.
+          </p>
+
+          <!-- Search bar -->
+          <div class="mt-7 flex flex-col sm:flex-row gap-3">
+            <div class="flex-1">
+              <label class="sr-only" for="q">Hledat</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10.8 18.6C15.1078 18.6 18.6 15.1078 18.6 10.8C18.6 6.49218 15.1078 3 10.8 3C6.49218 3 3 6.49218 3 10.8C3 15.1078 6.49218 18.6 10.8 18.6Z" stroke="currentColor" stroke-width="1.8"/></svg>
+                </span>
+                <input id="q" class="focus-ring w-full rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/80 dark:bg-zinc-900/55 px-10 py-3 text-sm sm:text-base shadow-soft dark:shadow-softDark" placeholder="Napiš: záda, stres, spánek, trávení…" />
+              </div>
+            </div>
+            <button id="btnSearch" class="focus-ring inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm sm:text-base font-semibold text-white shadow-soft hover:bg-emerald-700">
+              Najít
+            </button>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="mt-6 flex flex-wrap gap-2">
+            <button data-chip="záda" class="chip focus-ring rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-4 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900">Záda</button>
+            <button data-chip="stres" class="chip focus-ring rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-4 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900">Stres</button>
+            <button data-chip="spánek" class="chip focus-ring rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-4 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900">Spánek</button>
+            <button data-chip="trávení" class="chip focus-ring rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-4 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900">Trávení</button>
+            <button data-chip="paměť" class="chip focus-ring rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-4 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900">Paměť</button>
+          </div>
+        </div>
+
+        <!-- Right panel cards -->
+        <div class="lg:col-span-5">
+          <div class="rounded-3xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 shadow-soft dark:shadow-softDark p-5 sm:p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Rychlé menu</div>
+                <div class="text-xs text-zinc-600 dark:text-zinc-400">Multifunkční karty</div>
+              </div>
+              <div class="text-xs text-zinc-600 dark:text-zinc-400">MVP</div>
+            </div>
+
+            <div class="mt-4 grid gap-3">
+              <button data-open="byliny" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+                <div class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C12 16 15 12 21 10V2C13 2 6.5 5.5 4 11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22C8 20 6 16 6 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <div class="flex-1">
+                    <div class="font-semibold">Byliny</div>
+                    <div class="text-sm text-zinc-600 dark:text-zinc-400">Najdi bylinu podle účinku a použij ji správně.</div>
+                  </div>
+                  <span class="text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-200">→</span>
+                </div>
+              </button>
+
+              <button data-open="zdravi" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+                <div class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21S4 16 4 9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 7-8 12-8 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <div class="flex-1">
+                    <div class="font-semibold">Zdraví</div>
+                    <div class="text-sm text-zinc-600 dark:text-zinc-400">Problém → co dává smysl → na co pozor.</div>
+                  </div>
+                  <span class="text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-200">→</span>
+                </div>
+              </button>
+
+              <button data-open="pruvodce" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+                <div class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <div class="flex-1">
+                    <div class="font-semibold">Průvodce</div>
+                    <div class="text-sm text-zinc-600 dark:text-zinc-400">Krátké články na 3 minuty čtení.</div>
+                  </div>
+                  <span class="text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-200">→</span>
+                </div>
+              </button>
+
+              <button data-open="doporuceni" class="cardBtn group text-left focus-ring rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/60 dark:bg-zinc-950/30 p-4 hover:bg-white dark:hover:bg-zinc-900">
+                <div class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 dark:bg-emerald-500/10">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 7h12l-1 14H7L6 7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <div class="flex-1">
+                    <div class="font-semibold">Doporučení</div>
+                    <div class="text-sm text-zinc-600 dark:text-zinc-400">Ověřené produkty (nenápadně). Affiliate připraveno.</div>
+                  </div>
+                  <span class="text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-200">→</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="mt-5 flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-400">
+              <span>Tip: klikni na kartu nebo použij hledání.</span>
+              <a class="underline underline-offset-4 hover:text-zinc-900 dark:hover:text-white" href="#sekce">Sekce</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections -->
+    <section id="sekce" class="py-10 sm:py-12">
+      <div class="grid lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4">
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Sekce, které dávají smysl</h2>
+          <p class="mt-3 text-zinc-700 dark:text-zinc-300">Vše je postavené tak, aby se to dalo rozšiřovat bez přepisování webu. Dnes MVP. Zítra systém.</p>
+
+          <div class="mt-6 rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 p-4 shadow-soft dark:shadow-softDark">
+            <div class="text-sm font-semibold">Filtry (klikni)</div>
+            <div class="mt-3 flex flex-wrap gap-2" id="filters">
+              <button data-filter="all" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Vše</button>
+              <button data-filter="záda" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Záda</button>
+              <button data-filter="stres" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Stres</button>
+              <button data-filter="spánek" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Spánek</button>
+              <button data-filter="trávení" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Trávení</button>
+              <button data-filter="paměť" class="filter focus-ring rounded-full px-3 py-1.5 text-sm border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 hover:bg-white dark:hover:bg-zinc-900">Paměť</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div class="grid sm:grid-cols-2 gap-4" id="grid">
+            <!-- Cards (data-driven) -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="pb-14">
+      <div class="rounded-3xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 shadow-soft dark:shadow-softDark p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <h3 class="text-xl sm:text-2xl font-extrabold">Chceš to rozjet i jako byznys?</h3>
+            <p class="mt-2 text-zinc-700 dark:text-zinc-300">MVP je připravené: obsah + doporučení produktů. Později e‑shop nebo private label.</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button id="btnOpenDopor" class="focus-ring rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700">Otevřít Doporučení</button>
+            <a href="#" class="focus-ring rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-5 py-3 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900">Kontakt (později)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pb-10 text-xs text-zinc-600 dark:text-zinc-400">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-t border-zinc-200/60 dark:border-zinc-800/60 pt-6">
+        <div>© <span id="year"></span> Herbao.cz • MVP preview</div>
+        <div class="flex gap-4">
+          <a class="hover:text-zinc-900 dark:hover:text-white" href="#">Zásady</a>
+          <a class="hover:text-zinc-900 dark:hover:text-white" href="#">Kontakt</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div id="modalWrap" class="fixed inset-0 z-50 hidden">
+    <div id="modalBg" class="absolute inset-0 bg-zinc-950/45 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div id="modal" class="modal-enter w-full max-w-2xl rounded-3xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white dark:bg-zinc-950 shadow-soft dark:shadow-softDark overflow-hidden">
+        <div class="p-5 sm:p-6 border-b border-zinc-200/60 dark:border-zinc-800/60 flex items-start justify-between gap-4">
+          <div>
+            <div id="modalKicker" class="text-xs text-emerald-700 dark:text-emerald-300 font-semibold">HERBAO</div>
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-extrabold tracking-tight">Detail</h3>
+            <p id="modalDesc" class="mt-2 text-sm text-zinc-700 dark:text-zinc-300">Popis</p>
+          </div>
+          <button id="modalClose" class="focus-ring rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 px-3 py-2 text-sm hover:bg-white dark:hover:bg-zinc-900" aria-label="Zavřít">✕</button>
+        </div>
+        <div class="p-5 sm:p-6">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 p-4">
+              <div class="text-sm font-semibold">Kdy to dává smysl</div>
+              <ul id="modalGood" class="mt-3 space-y-2 text-sm text-zinc-700 dark:text-zinc-300 list-disc pl-5"></ul>
+            </div>
+            <div class="rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 p-4">
+              <div class="text-sm font-semibold">Na co pozor</div>
+              <ul id="modalWarn" class="mt-3 space-y-2 text-sm text-zinc-700 dark:text-zinc-300 list-disc pl-5"></ul>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-2xl border border-emerald-200/70 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/25 p-4">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-sm font-semibold text-emerald-900 dark:text-emerald-100">Doporučený typ produktu</div>
+                <div id="modalProduct" class="mt-1 text-sm text-emerald-900/80 dark:text-emerald-100/80">—</div>
+              </div>
+              <a id="modalLink" href="#" class="focus-ring inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700">
+                Kde koupit
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div class="mt-2 text-xs text-emerald-900/70 dark:text-emerald-100/70">Pozn.: odkaz je připravený na affiliate (zatím demo).</div>
+          </div>
+
+          <div class="mt-4 text-xs text-zinc-600 dark:text-zinc-400">
+            Upozornění: informace jsou obecné. Při lécích, těhotenství nebo diagnóze to řeš s lékařem.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Theme =====
+    const themeBtn = document.getElementById('themeBtn');
+    const themeLabel = document.getElementById('themeLabel');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+      const root = document.documentElement;
+      if(mode === 'dark') root.classList.add('dark');
+      else root.classList.remove('dark');
+      localStorage.setItem('herbao_theme', mode);
+      renderThemeBtn();
+    }
+
+    function renderThemeBtn(){
+      const isDark = document.documentElement.classList.contains('dark');
+      themeLabel.textContent = isDark ? 'Světlý' : 'Tmavý';
+      themeIcon.innerHTML = isDark
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a7 7 0 1 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    }
+
+    const savedTheme = localStorage.getItem('herbao_theme');
+    if(savedTheme) setTheme(savedTheme);
+    else {
+      // pokud uživatel preferuje dark
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // ===== Data =====
+    const items = [
+      {
+        id: 'kurkuma',
+        type: 'bylina',
+        tags: ['trávení','záda'],
+        title: 'Kurkuma',
+        subtitle: 'Podpora kloubů a trávení',
+        desc: 'Často používaná při zánětlivých procesech a pro komfort kloubů. Ideálně v kombinaci s pepřem.',
+        good: ['Dlouhodobě při ztuhlosti kloubů', 'Jako doplněk ke stravě (ne náhrada léčby)', 'Když chceš jednoduchý základní návyk'],
+        warn: ['Pozor při lécích na ředění krve', 'U citlivého žaludku začít nízko', 'Neřeší akutní stav přes noc'],
+        product: 'Extrakt kurkuminu + piperin',
+        link: '#'
+      },
+      {
+        id: 'ostropestrec',
+        type: 'bylina',
+        tags: ['trávení'],
+        title: 'Ostropestřec',
+        subtitle: 'Podpora jater a trávení',
+        desc: 'Klasika pro játra a trávící komfort. Vhodné jako kúra i dlouhodobě v rozumné dávce.',
+        good: ['Když chceš podpořit játra (např. po dietních chybách)', 'Při pocitu těžkosti po jídle', 'Jako jednoduchá „reset“ rutina'],
+        warn: ['Pozor při lécích – konzultace', 'U žlučníku opatrně', 'Nečekej zázrak bez režimu'],
+        product: 'Silymarin (ostropestřec) kapsle',
+        link: '#'
+      },
+      {
+        id: 'kozlík',
+        type: 'bylina',
+        tags: ['spánek','stres'],
+        title: 'Kozlík',
+        subtitle: 'Spánek a zklidnění',
+        desc: 'Zklidňující bylina pro večerní rutinu. Hodí se, když hlava nejde vypnout.',
+        good: ['Při problémovém usínání', 'Když tě „točí“ stres', 'Jako večerní čaj/tinktura'],
+        warn: ['Neřídit, když cítíš útlum', 'Ne kombinovat bez hlavy s alkoholem', 'U dlouhodobých potíží řešit příčinu'],
+        product: 'Kozlík čaj nebo tinktura',
+        link: '#'
+      },
+      {
+        id: 'medunka',
+        type: 'bylina',
+        tags: ['stres','spánek'],
+        title: 'Meduňka',
+        subtitle: 'Klidné nervy',
+        desc: 'Jemná bylinka na den i večer. Neuspává agresivně, spíš srovná nervy.',
+        good: ['Denní stres a napětí', 'Lehká večerní rutina', 'Když chceš něco „měkkého“'],
+        warn: ['U nízkého tlaku sledovat reakci', 'Nečekej okamžitý efekt jako prášek', 'Když je úzkost silná, řešit odborně'],
+        product: 'Meduňka čaj / extrakt',
+        link: '#'
+      },
+      {
+        id: 'ginkgo',
+        type: 'bylina',
+        tags: ['paměť'],
+        title: 'Ginkgo',
+        subtitle: 'Paměť a soustředění',
+        desc: 'Podpora pro prokrvení a mentální výkon. Dává smysl jako dlouhodobý návyk.',
+        good: ['Když chceš podpořit soustředění', 'Při náročném období', 'Když chceš „hlavu čistější“'],
+        warn: ['Pozor při lécích na ředění krve', 'Vyžaduje čas (týdny)', 'Nepřehánět dávkování'],
+        product: 'Ginkgo extrakt (standardizovaný)',
+        link: '#'
+      },
+      {
+        id: 'zdravi-zada',
+        type: 'zdraví',
+        tags: ['záda'],
+        title: 'Záda',
+        subtitle: 'Co dává smysl',
+        desc: 'Byliny jsou doplněk. Základ je režim: pohyb, spánek, klid, postupně posilovat.',
+        good: ['Denně 10–20 min chůze', 'Lehký strečink / rehabilitační cviky', 'Hydratace + bílkoviny'],
+        warn: ['Akutní bolest = lékař', 'Brnění/noha = nepodceňovat', 'Nezvedat těžké věci bez techniky'],
+        product: 'Kurkumin / kolagen (dle potřeby)',
+        link: '#'
+      },
+      {
+        id: 'zdravi-stres',
+        type: 'zdraví',
+        tags: ['stres'],
+        title: 'Stres',
+        subtitle: 'Když hlava jede na plno',
+        desc: 'Nejrychlejší změna je rutina: spánek, kofein, pohyb. Byliny jen pomůžou „ztišit šum“.',
+        good: ['Omezit kafe po 14:00', 'Krátká procházka denně', 'Večer bez obrazovek 30 min'],
+        warn: ['Dlouhodobá úzkost = odborník', 'Alkohol zhoršuje spánek', 'Nedostatek spánku je násobič'],
+        product: 'Meduňka / kozlík (večer)',
+        link: '#'
+      },
+      {
+        id: 'pruvodce-3min',
+        type: 'průvodce',
+        tags: ['trávení','stres','spánek','záda','paměť'],
+        title: 'Průvodce: 3 min čtení',
+        subtitle: 'Jednoduše, lidsky',
+        desc: 'Krátké články bez omáčky. Vždy: co to je, kdy to dává smysl, kdy radši ne.',
+        good: ['Rychle se zorientuješ', 'Naučíš se základní pravidla', 'Vyhneš se marketingovým slibům'],
+        warn: ['Nečekej lékařskou diagnózu', 'U léků vždy konzultace', 'Zázraky neprodáváme'],
+        product: 'Ověřené produkty (affiliate)',
+        link: '#'
+      },
+      {
+        id: 'doporuceni-mvp',
+        type: 'doporučení',
+        tags: ['trávení','stres','spánek','záda','paměť'],
+        title: 'Doporučení',
+        subtitle: 'Ověřené, jednoduché',
+        desc: 'Místo 200 značek ukazujeme jen typ produktu a na co koukat (složení, standardizace).',
+        good: ['Jednodušší výběr', 'Méně zbytečných nákupů', 'Průhledné doporučení'],
+        warn: ['Affiliate odkaz = transparentně uvedeme', 'Není to náhrada léčby', 'Kvalita se liší podle výrobce'],
+        product: 'Pilulka / Dr.Max / Alza (zatím demo)',
+        link: '#'
+      },
+    ];
+
+    const grid = document.getElementById('grid');
+
+    function badgeForType(t){
+      const base = 'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold border';
+      if(t === 'bylina') return `${base} border-emerald-200/70 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/25 text-emerald-900 dark:text-emerald-100`;
+      if(t === 'zdraví') return `${base} border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 text-zinc-800 dark:text-zinc-200`;
+      if(t === 'průvodce') return `${base} border-zinc-200/70 dark:border-zinc-800/70 bg-white/60 dark:bg-zinc-900/40 text-zinc-800 dark:text-zinc-200`;
+      return `${base} border-emerald-200/70 dark:border-emerald-900/40 bg-white/60 dark:bg-zinc-900/40 text-zinc-800 dark:text-zinc-200`;
+    }
+
+    function iconForType(t){
+      if(t === 'bylina') return '🌿';
+      if(t === 'zdraví') return '🫶';
+      if(t === 'průvodce') return '📘';
+      return '🛒';
+    }
+
+    function renderCards(list){
+      grid.innerHTML = '';
+      list.forEach(it => {
+        const el = document.createElement('button');
+        el.className = 'text-left focus-ring rounded-3xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 shadow-soft dark:shadow-softDark p-5 hover:bg-white dark:hover:bg-zinc-900 fade-in';
+        el.setAttribute('data-open', it.id);
+        el.innerHTML = `
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="${badgeForType(it.type)}">${iconForType(it.type)} <span class="ml-1">${it.type}</span></div>
+              <div class="mt-3 text-lg font-extrabold tracking-tight">${it.title}</div>
+              <div class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">${it.subtitle}</div>
+            </div>
+            <div class="text-zinc-400">→</div>
+          </div>
+          <p class="mt-3 text-sm text-zinc-700 dark:text-zinc-300">${it.desc}</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${it.tags.slice(0,4).map(t => `<span class="text-xs rounded-full border border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/60 dark:bg-zinc-950/30 px-2.5 py-1">${t}</span>`).join('')}
+          </div>
+        `;
+        el.addEventListener('click', () => openModal(it.id));
+        grid.appendChild(el);
+      });
+
+      if(list.length === 0){
+        grid.innerHTML = `
+          <div class="sm:col-span-2 rounded-3xl border border-zinc-200/70 dark:border-zinc-800/70 bg-white/70 dark:bg-zinc-900/55 shadow-soft dark:shadow-softDark p-6">
+            <div class="text-lg font-extrabold">Nic nenalezeno</div>
+            <p class="mt-2 text-sm text-zinc-700 dark:text-zinc-300">Zkus jiné slovo (např. „záda“, „spánek“, „stres“, „trávení“).</p>
+          </div>
+        `;
+      }
+    }
+
+    // default render
+    renderCards(items);
+
+    // ===== Filtering + Search =====
+    let activeFilter = 'all';
+
+    function apply(){
+      const q = (document.getElementById('q').value || '').trim().toLowerCase();
+      const filtered = items.filter(it => {
+        const inFilter = activeFilter === 'all' ? true : it.tags.includes(activeFilter);
+        if(!inFilter) return false;
+        if(!q) return true;
+        const hay = `${it.title} ${it.subtitle} ${it.desc} ${it.tags.join(' ')}`.toLowerCase();
+        return hay.includes(q);
+      });
+      renderCards(filtered);
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', apply);
+    document.getElementById('q').addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); apply(); } });
+
+    document.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('q').value = btn.getAttribute('data-chip');
+        apply();
+        document.getElementById('sekce').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    document.querySelectorAll('.filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.filter').forEach(b => b.classList.remove('bg-white','dark:bg-zinc-900'));
+        btn.classList.add('bg-white','dark:bg-zinc-900');
+        apply();
+      });
+    });
+
+    // ===== Modal =====
+    const modalWrap = document.getElementById('modalWrap');
+    const modalBg = document.getElementById('modalBg');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(id){
+      const it = items.find(x => x.id === id) || items.find(x => x.type === id);
+      if(!it) return;
+
+      document.getElementById('modalKicker').textContent = `HERBAO • ${it.type.toUpperCase()}`;
+      document.getElementById('modalTitle').textContent = it.title;
+      document.getElementById('modalDesc').textContent = it.desc;
+
+      const good = document.getElementById('modalGood');
+      const warn = document.getElementById('modalWarn');
+      good.innerHTML = it.good.map(x => `<li>${x}</li>`).join('');
+      warn.innerHTML = it.warn.map(x => `<li>${x}</li>`).join('');
+
+      document.getElementById('modalProduct').textContent = it.product;
+      const link = document.getElementById('modalLink');
+      link.href = it.link;
+
+      modalWrap.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modalWrap.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    modalBg.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && !modalWrap.classList.contains('hidden')) closeModal();
+    });
+
+    // Right panel buttons
+    document.querySelectorAll('.cardBtn').forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.getAttribute('data-open')));
+    });
+    document.getElementById('btnOpenDopor').addEventListener('click', () => openModal('doporuceni-mvp'));
+
+    // Search from right panel via top input
+    document.querySelectorAll('[data-open="byliny"],[data-open="zdravi"],[data-open="pruvodce"],[data-open="doporuceni"]').forEach(()=>{});
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
