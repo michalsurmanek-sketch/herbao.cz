@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Herbao.cz – Síla přírody ve vašich rukou</title>
+
   <meta name="description" content="Prémiové byliny, tinktury, čaje a přírodní kosmetika. Objednej online s doručením po celé ČR. Herbao.cz – síla přírody ve vašich rukou." />
   <meta name="robots" content="index, follow">
   <meta name="author" content="Herbao.cz">
@@ -11,31 +12,33 @@
   <meta name="theme-color" content="#0f766e">
   <meta name="application-name" content="Herbao.cz">
   <meta name="apple-mobile-web-app-title" content="Herbao">
+
   <meta property="og:title" content="Herbao.cz – Síla přírody ve vašich rukou" />
   <meta property="og:description" content="Přírodní byliny, čaje, tinktury a kosmetika. Kvalita z přírody, poctivé složení a moderní design." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://herbao.cz/" />
   <meta property="og:image" content="https://herbao.cz/og-image.jpg" />
   <meta property="og:site_name" content="Herbao.cz" />
-  
-    
-  <!-- FAVICON – Herbao.cz -->
-  <!-- Malá ikona do záložky prohlížeče (16x16) -->
+
+  <!-- FAVICON -->
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-
-  <!-- Standardní favicon pro většinu prohlížečů (32x32) -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-
-  <!-- Ikona pro iPhone / iPad při přidání na plochu (180x180) -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-    // Tailwind config (jen základ)
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "Noto Sans", "sans-serif"],
+            sans: ["Roboto","ui-sans-serif","system-ui","-apple-system","Segoe UI","Arial","sans-serif"]
           },
           boxShadow: {
             soft: '0 10px 30px rgba(0,0,0,.08)',
@@ -45,6 +48,7 @@
       }
     }
   </script>
+
   <style>
     /* jemné pozadí + zrno */
     .grain:before{content:"";position:absolute;inset:0;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" opacity=".10"/></svg>');mix-blend-mode:overlay;pointer-events:none;opacity:.45}
